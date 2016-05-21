@@ -2,9 +2,8 @@
 # Authors: Christopher Hench
 # ==============================================================================
 
-"""Library to manipulate .srt subtitle files.
-Currently srtTool can shift subtitles by seconds
-or change to new frame rates"""
+"""Library to manipulate .srt subtitle files. Currently srtTool can shift
+subtitles by seconds or change to new frame rates"""
 
 
 from datetime import datetime
@@ -12,6 +11,7 @@ import sys
 
 
 class srtLib:
+
     def __init__(self, srtFile):
         self.subs = srtFile.split("\n\n")
         self.tcs = [s.split("\n")[1].split(" --> ")
@@ -22,15 +22,16 @@ class srtLib:
     def shift_tcs(self, t_shift, rate=False):
 
         tc_as_num = [[t.split(":") for t in s] for s in self.tcs]
-        tc_as_num = [[[int(t[0])*60*60, int(t[1])*60,
-                     float(t[2].replace(",", "."))]
-                     for t in s] for s in tc_as_num]
+        tc_as_num = [[[int(t[0]) * 60 * 60, int(t[1]) * 60,
+                       float(t[2].replace(",", "."))]
+                      for t in s] for s in tc_as_num]
         tc_as_secs = [(sum(t[0]), sum(t[1])) for t in tc_as_num]
 
-        tc_shifted_secs = [(t[0]+t_shift, t[1]+t_shift) for t in tc_as_secs]
+        tc_shifted_secs = [(t[0] + t_shift, t[1] + t_shift)
+                           for t in tc_as_secs]
 
         if rate:
-            tc_shifted_secs = [(t[0]*t_shift, t[1]*t_shift)
+            tc_shifted_secs = [(t[0] * t_shift, t[1] * t_shift)
                                for t in tc_as_secs]
 
         shifted_tcs = []
@@ -126,7 +127,7 @@ class srtLib:
         s_tcs = self.shift_tcs(secs)
         newFile = ""
         for i, s in enumerate(self.sub_text):
-            newFile += str(i+1) + "\n"
+            newFile += str(i + 1) + "\n"
             newFile += s_tcs[i][0] + " --> " + s_tcs[i][1] + "\n"
             for x in s:
                 newFile += x + "\n"
@@ -140,7 +141,7 @@ class srtLib:
         s_tcs = self.shift_tcs(ratio, rate=True)
         newFile = ""
         for i, s in enumerate(self.sub_text):
-            newFile += str(i+1) + "\n"
+            newFile += str(i + 1) + "\n"
             newFile += s_tcs[i][0] + " --> " + s_tcs[i][1] + "\n"
             for x in s:
                 newFile += x + "\n"
@@ -150,7 +151,7 @@ class srtLib:
             f.write(newFile)
 
 if __name__ == '__main__':
-    filePath1 = sys.argv[1]  # text file to get onsets from
+    filePath1 = sys.argv[1]
     action = str(sys.argv[2])
     # num is seconds to shift or ratio of frame rate move
     num = sys.argv[3]
