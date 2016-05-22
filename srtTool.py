@@ -136,6 +136,10 @@ class srtLib:
         with open("shifted_subs.srt", "w") as f:
             f.write(newFile)
 
+    def script(self):
+        with open("script.txt", "w") as f:
+            f.write("\n".join([i for s in self.sub_text for i in s]))
+
     # ratio input is old rate divided by new rate
     def shift_subs_rate(self, ratio):
         s_tcs = self.shift_tcs(ratio, rate=True)
@@ -153,8 +157,6 @@ class srtLib:
 if __name__ == '__main__':
     filePath1 = sys.argv[1]
     action = str(sys.argv[2])
-    # num is seconds to shift or ratio of frame rate move
-    num = sys.argv[3]
 
     with open(filePath1, 'r', encoding='utf-8') as f:
         srt = f.read()
@@ -162,7 +164,13 @@ if __name__ == '__main__':
     subs = srtLib(srt)
 
     if action == "shift":
+        # num is seconds to shift or ratio of frame rate move
+        num = sys.argv[3]
         subs.shift_subs(int(num))
 
     elif action == "frate":
+        num = sys.argv[3]
         subs.shift_subs_rate(float(num))
+
+    elif action == "script":
+        subs.script()
