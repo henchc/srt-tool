@@ -2,8 +2,10 @@
 # Authors: Christopher Hench
 # ==============================================================================
 
-"""Library to manipulate .srt subtitle files. Currently srtTool can shift
-subtitles by seconds or change to new frame rates"""
+'''Library to manipulate .srt subtitle files. Currently srtTool can shift
+subtitles by seconds or change to new frame rates. It also can match film
+script files to spotted timecodes. PAL uses a frame rate of 25, while NTSC
+uses a frame rate of 29.97. 35mm videos have a frame rate of 24.'''
 
 
 from datetime import datetime
@@ -154,6 +156,23 @@ class srtLib:
         with open("new_rate_subs.srt", "w") as f:
             f.write(newFile)
 
+    def match_new(self, new_subs):
+        '''This method matches subtitle text formatted in .srt without any
+        timecode to a blank srt file with only time codes. This is helpful
+        for spotters who happen to have a script.'''
+
+        new_text = [[l for l in sub.split("\n") if len(l) > 0]
+                    for sub in new_subs.split("\n\n")]
+        assert len(new_text) == len(self.tcs)
+        new_srt = ""
+        for i, x in enumerate(new_text):
+            new_srt += str(x[0]) + "\n"
+            new_srt += self.tcs[i][0] + " --> " + self.tcs[i][1] + "\n"
+            new_srt += "\n".join(x[1:]) + "\n\n"
+        with open("newly_matched.srt", "w") as f:
+            f.write(new_srt)
+
+
 if __name__ == '__main__':
     filePath1 = sys.argv[1]
     action = str(sys.argv[2])
@@ -174,3 +193,9 @@ if __name__ == '__main__':
 
     elif action == "script":
         subs.script()
+
+    elif action == "match_new":
+        new_srt = sys.argv[3]
+        with open(new_srt, 'r', encoding='utf-8') as f:
+            new_text = f.read()
+        subs.match_new(new_text)
