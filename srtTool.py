@@ -5,7 +5,8 @@
 '''Library to manipulate .srt subtitle files. Currently srtTool can shift
 subtitles by seconds or change to new frame rates. It also can match film
 script files to spotted timecodes. PAL uses a frame rate of 25, while NTSC
-uses a frame rate of 29.97. 35mm videos have a frame rate of 24.'''
+uses a frame rate of 29.97. 35mm videos have a frame rate of 24. But transfer
+from telecining for PAL is 23.976.'''
 
 
 from datetime import datetime
@@ -188,8 +189,16 @@ if __name__ == '__main__':
         subs.shift_subs(int(num))
 
     elif action == "frate":
-        num = sys.argv[3]
-        subs.shift_subs_rate(float(num))
+        orig = sys.argv[3]
+        new = sys.argv[4]
+        if orig == "NTSC" and new == "PAL":
+            subs.shift_subs_rate(23.976/25)
+        elif orig == "PAL" and new == "NTSC":
+            subs.shift_subs_rate(25/23.976)
+        elif orig == "FILM" and new == "PAL":
+            subs.shift_subs_rate(24/25)
+        elif orig == "FILM" and new == "NTSC":
+            subs.shift_subs_rate(25/24)
 
     elif action == "script":
         subs.script()

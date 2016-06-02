@@ -2,7 +2,7 @@
 Tool to manipulate .srt subtitle files
 
 ```
-python srtTool.py <file path> <action> <value/second file path>
+python srtTool.py <file path> <action> <value/second file path> <FILM/PAL/NTSC?> <FILM/PAL/NTSC?>
 ```
 Actions supported:
 
