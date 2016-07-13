@@ -1,8 +1,8 @@
-# srtTool
+# srt-Tool
 Tool to manipulate .srt subtitle files
 
 ```
-python srtTool.py <file path> <action> <value/second file path> <FILM/PAL/NTSC?> <FILM/PAL/NTSC?>
+python srt-Tool.py <file path> <action> <"rate" or "seconds"/second file path> <ratio or seconds>
 ```
 Actions supported:
 
