@@ -23,6 +23,8 @@ class srtLib:
         self.sub_text = [s.split("\n")[2:] for s in self.subs if len(s) > 0]
 
     def to_seconds(self, timecode):
+        '''Converts timecode strings HH:MM:SS,SSS to seconds'''
+
         x = time.strptime(timecode.split(',')[0], '%H:%M:%S')
         secs = float(datetime.timedelta(
             hours=x.tm_hour,
@@ -31,6 +33,8 @@ class srtLib:
         return(secs)
 
     def to_tc(self, seconds):
+        '''Converts seconds to timecode strings HH:MM:SS,SSS'''
+
         m, s = divmod(seconds, 60)
         sd = "%.3f" % s
         sd = "," + sd[-3:]
@@ -39,8 +43,10 @@ class srtLib:
         tc += sd
         return(tc)
 
-    # shift all subs by seconds
     def shift_tcs(self, t_shift, rate=False):
+        '''Shifts timecodes by seconds or a rate (when converting to different
+        codecs)'''
+
         secs = [(self.to_seconds(x[0]), self.to_seconds(x[1]))
                 for x in self.tcs]
         if not rate:
@@ -61,6 +67,8 @@ class srtLib:
         return (s_tcs)
 
     def script(self):
+        '''Generates script of text only from subtitle file'''
+
         with open("script.txt", "w") as f:
             f.write("\n".join([i for s in self.sub_text for i in s]))
 
