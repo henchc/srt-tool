@@ -1,5 +1,4 @@
-# Created at UC Berkeley 2015
-# Authors: Christopher Hench
+# Author: Christopher Hench
 # ==============================================================================
 
 '''Library to manipulate .srt subtitle files. Currently srtTool can shift

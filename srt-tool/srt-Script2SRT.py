@@ -1,3 +1,8 @@
+# Author: Christopher Hench
+# ==============================================================================
+
+'''Working product to automatically generate SRT file from script. Intervals are given as user inputs while watching video. Line breaks are determined by a tree parsing algorithm.'''
+
 import time
 from nltk.parse import stanford
 from nltk import sent_tokenize, Tree
